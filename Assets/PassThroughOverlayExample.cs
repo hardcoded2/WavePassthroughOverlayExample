@@ -41,7 +41,7 @@ namespace Wave.Essence.Samples.PassThroughOverlayExample
 
 			void ToggleUnderlay()
 			{
-				var result = Interop.WVR_ShowPassthroughUnderlay(show);
+				var result = Wave.Native.Interop.WVR_ShowPassthroughUnderlay(show);
 				if (result != WVR_Result.WVR_Success)
 				{
 					Debug.LogError($"Error when setting overlay when setting it to {show} value was {result}");
