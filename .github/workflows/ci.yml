@@ -19,12 +19,9 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: 'true'
-      - run: echo -n -e "HELLO\n !\n World!" > text.txt
-      - shell: bash
-        env:
           UNITYLICENSE: ${{ UnityLicense.LICENSE_2019_4_36F1 }}
-        run: |
-          echo "$UNITYLICENSE" > Unity_v${{ matrix.unity-version }}.alf
+      - run: echo -n -e "HELLO\n !\n World!" > text.txt
+      - run: echo -n -e "UNITYLICENSE" > license.alf
 
       - uses: pCYSl5EDgo/setup-unity@master
         with:
@@ -32,7 +29,7 @@ jobs:
 
       #- run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -createManualActivationFile || exit 0
       #- run: cat Unity_v${{ matrix.unity-version }}.alf
-      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile Unity_v${{ matrix.unity-version }}.alf || exit 0
+      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf || exit 0
       - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -executeMethod TestBuilder.Build || exit 0
       - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -returnlicense || exit 0
 
