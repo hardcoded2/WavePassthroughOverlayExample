@@ -12,7 +12,7 @@ jobs:
 
     strategy:
       matrix:
-        unity-version: [ 2020.3.30f1, 2021.2.14f1 ] # 2019.4.36f1,
+        unity-version: [ 2019.4.36f1 ] #2020.3.30f1, 2021.2.14f1 ,
 
     steps:
       - name: Checkout Passthrough Example
@@ -24,10 +24,20 @@ jobs:
         with:
           unity-version: ${{ matrix.unity-version }}
 
-      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -createManualActivationFile || exit 0
-      - run: cat Unity_v${{ matrix.unity-version }}.alf
+      - run: echo "{{LICENSE_2019_4_36F1}}" > Unity_v${{ matrix.unity-version }}.alf
+      #- run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -createManualActivationFile || exit 0
+      #- run: cat Unity_v${{ matrix.unity-version }}.alf
+      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile Unity_v${{ matrix.unity-version }}.alf || exit 0
+      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -executeMethod TestBuilder.Build || exit 0
+      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -returnlicense || exit 0
 
 
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: builds
+          path: |
+            Build/*.apk
 #      - name: Build ${{ matrix.flavour }} Flavour
 #        uses: gradle/gradle-build-action@v2
 #        with:
