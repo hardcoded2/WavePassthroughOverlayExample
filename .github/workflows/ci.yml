@@ -20,15 +20,16 @@ jobs:
         with:
           submodules: 'true'
       - run: echo -n -e "HELLO\n !\n World!" > text.txt
-      - uses: pCYSl5EDgo/setup-unity@master
-        with:
-          unity-version: ${{ matrix.unity-version }}
       - shell: bash
           env:
             UNITYLICENSE: ${{ UnityLicense.LICENSE_2019_4_36F1 }}
           run: |
             echo "$UNITYLICENSE" > Unity_v${{ matrix.unity-version }}.alf
-            
+      
+      - uses: pCYSl5EDgo/setup-unity@master
+        with:
+          unity-version: ${{ matrix.unity-version }}
+
       #- run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -createManualActivationFile || exit 0
       #- run: cat Unity_v${{ matrix.unity-version }}.alf
       - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile Unity_v${{ matrix.unity-version }}.alf || exit 0
