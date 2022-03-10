@@ -1,0 +1,41 @@
+# CI for pull requests
+# https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle?learn=continuous_integration&learnProduct=actions
+# Using gradle-build-action. See https://github.com/gradle/gradle-build-action
+
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        unity-version: [ 2019.4.36f1 ] # 2020.3.30f1, 2020.3.0
+
+    steps:
+      - name: Checkout Passthrough Example
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+      - run: echo -n -e "HELLO\n !\n World!" > text.txt
+      - uses: pCYSl5EDgo/setup-unity@master
+        with:
+          unity-version: ${{ matrix.unity-version }}
+
+      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -createManualActivationFile || exit 0
+      - run: cat Unity_v${{ matrix.unity-version }}.alf
+
+
+#      - name: Build ${{ matrix.flavour }} Flavour
+#        uses: gradle/gradle-build-action@v2
+#        with:
+#          arguments: ${{ matrix.flavour }}
+#
+#      - name: 'Upload Artifact'
+#        uses: actions/upload-artifact@v2
+#        with:
+#          name: build${{ github.run_number }}
+#          path: app/build/outputs/apk/**/*apk
+#          retention-days: 60
