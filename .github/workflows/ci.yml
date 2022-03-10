@@ -21,11 +21,11 @@ jobs:
           submodules: 'true'
       - run: echo -n -e "HELLO\n !\n World!" > text.txt
       - shell: bash
-          env:
-            UNITYLICENSE: ${{ UnityLicense.LICENSE_2019_4_36F1 }}
-          run: |
-            echo "$UNITYLICENSE" > Unity_v${{ matrix.unity-version }}.alf
-      
+        env:
+          UNITYLICENSE: ${{ UnityLicense.LICENSE_2019_4_36F1 }}
+        run: |
+          echo "$UNITYLICENSE" > Unity_v${{ matrix.unity-version }}.alf
+
       - uses: pCYSl5EDgo/setup-unity@master
         with:
           unity-version: ${{ matrix.unity-version }}
