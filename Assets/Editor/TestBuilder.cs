@@ -13,7 +13,7 @@ public class TestBuilder
         {
             var buildNumberFaked = Convert.ToInt32(Random.Range(1f, 1000f));
             
-            //other axes potentially - unity version, scripting backend, .net api compatibility, rendering pipeline, old/new input, xr input(xri with xr rig and xr origin), other packages, tbd
+            //other axes potentially - unity version, scripting backend, .net api compatibility, rendering pipeline, old/new input, xr input(xri with xr rig and xr origin), other packages, C++ compiler config, release/debug, tbd
             var buildConfig = new BuildConfig()
             {
                 BuildOptions = BuildOptions.Development, // | BuildOptions.AutoRunPlayer,
