@@ -15,14 +15,26 @@ jobs:
         unity-version: [ 2019.4.36f1 ] #,2020.3.30f1, 2021.2.14f1
 
     steps:
-      - name: Checkout Passthrough Example
-        uses: actions/checkout@v2
-        with:
-          submodules: 'true'
-      - shell: bash
+      - name: Display local environment variable
+        env:
+          TEST: TEST
         run: |
-          echo -n -e "$LICENSE" > license.alf
-      - run: wc -m license.alf
+          echo We can use a variable multiple time: $TEST
+          echo inside a multi-line script: $TEST
+      - name: Display local environment variable
+        env:
+          TEST2: TEST2
+        run: |
+          echo We can use a variable multiple time: $TEST2
+          echo inside a multi-line script: $TEST2
+#      - name: Checkout Passthrough Example
+#        uses: actions/checkout@v2
+#        with:
+#          submodules: 'true'
+#      - shell: bash
+#        run: |
+#          echo -n -e "$LICENSE" > license.alf
+#      - run: wc -m license.alf
 #wc -m mytextfile
 #      - run: echo -n -e "HELLO\n !\n World!" > text.txt
 #      #- run: echo -n -e "$UNITYLICENSE" > license.alf
