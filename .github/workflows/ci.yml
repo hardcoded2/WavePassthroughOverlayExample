@@ -22,13 +22,16 @@ jobs:
       - shell: bash
         run: |
           echo -n -e "$LICENSE_2019_4_36F1" > license.alf
-
+      - run: wc -m license.alf
+#wc -m mytextfile
       - run: echo -n -e "HELLO\n !\n World!" > text.txt
       #- run: echo -n -e "$UNITYLICENSE" > license.alf
 
       - uses: pCYSl5EDgo/setup-unity@master
         with:
           unity-version: ${{ matrix.unity-version }}
+          has-android: True
+          has-il2cpp: True
 
       #- run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -createManualActivationFile || exit 0
       #- run: cat Unity_v${{ matrix.unity-version }}.alf
