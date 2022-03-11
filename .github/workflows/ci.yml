@@ -22,7 +22,7 @@ jobs:
         env:
           TEST: {{TEST}}
         run: |
-          echo We can use a variable multiple time: $TEST
+          echo length of a string `length "$TEST"`
           echo inside a multi-line script: $TEST
       - name: Display local environment variable2
         env:
