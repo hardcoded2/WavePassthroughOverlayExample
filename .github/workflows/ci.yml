@@ -30,12 +30,6 @@ jobs:
         run: |
           echo We can use a variable multiple time: $TEST
           echo inside a multi-line script: $TEST
-      - name: Display local environment variable4
-        env:
-          TEST2: {{TEST2}}
-        run: |
-          echo We can use a variable multiple time: $TEST2
-          echo inside a multi-line script: $TEST2
 #      - name: Checkout Passthrough Example
 #        uses: actions/checkout@v2
 #        with:
