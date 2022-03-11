@@ -9,7 +9,8 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-
+    env:
+       LICENSE: LICENSE
     strategy:
       matrix:
         unity-version: [ 2019.4.36f1 ] #,2020.3.30f1, 2021.2.14f1
@@ -17,13 +18,15 @@ jobs:
     steps:
       - name: baseline
         run: |
-          echo length of a string `length "foobar"`
+          echo "$LICENSE" > test
+          wc test
       - name: Display local environment variable1
         env:
           TEST: TEST
         run: |
-          echo length of a string `length "$TEST"`
-          echo inside a multi-line script: $TEST
+          echo -n -e "$LICENSE" > license.alf
+          echo inside a multi-line script: $LICENSE
+          wc -m license.alf
       - name: Display local environment variable2
         env:
           TEST: TEST
