@@ -20,7 +20,7 @@ jobs:
           echo length of a string `length "foobar"`
       - name: Display local environment variable1
         env:
-          TEST: {{TEST}}
+          TEST: TEST
         run: |
           echo length of a string `length "$TEST"`
           echo inside a multi-line script: $TEST
