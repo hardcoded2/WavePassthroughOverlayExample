@@ -10,7 +10,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-       LICENSE: ${{ secrets.LICENSE }}
+      LICENSE: ${{ secrets.LICENSE }}
+      LICENSE2: ${{ secrets.LICENSE2 }}
     strategy:
       matrix:
         unity-version: [ 2019.4.36f1 ] #,2020.3.30f1, 2021.2.14f1
@@ -21,4 +22,9 @@ jobs:
           echo -n -e "$LICENSE" > license.alf
           echo inside a multi-line script: $LICENSE
           wc -m license.alf
+      - name: write out license file2
+        run: |
+          echo -n -e "$LICENSE2" > license2.alf
+          echo inside a multi-line script: $LICENSE2
+          wc -m license2.alf
           
