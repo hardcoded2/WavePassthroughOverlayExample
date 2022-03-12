@@ -22,36 +22,3 @@ jobs:
           echo inside a multi-line script: $LICENSE
           wc -m license.alf
           
-      - name: Checkout Passthrough Example
-        uses: actions/checkout@v2
-        with:
-          submodules: 'true'
-
-      - uses: pCYSl5EDgo/setup-unity@master
-        with:
-          unity-version: ${{ matrix.unity-version }}
-          has-android: True
-          has-il2cpp: True
-#
-#      #- run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -createManualActivationFile || exit 0
-#      #- run: cat Unity_v${{ matrix.unity-version }}.alf
-      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf || exit 0
-      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf -executeMethod TestBuilder.Build || exit 0
-      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf -returnlicense || exit 0
-#
-#
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: builds
-          path: |
-            Builds/*.apk
-
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: build${{ github.run_number }}
-          path: Builds/*apk
-      - name: list all files in build dir
-        run: |
-          ls -al Builds/
