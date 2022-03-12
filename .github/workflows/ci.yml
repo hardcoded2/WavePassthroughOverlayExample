@@ -17,8 +17,6 @@ jobs:
 
     steps:
       - name: write out license file
-        env:
-          TEST: TEST
         run: |
           echo -n -e "$LICENSE" > license.alf
           echo inside a multi-line script: $LICENSE
@@ -38,8 +36,8 @@ jobs:
 #      #- run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -createManualActivationFile || exit 0
 #      #- run: cat Unity_v${{ matrix.unity-version }}.alf
       - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf || exit 0
-      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -executeMethod TestBuilder.Build || exit 0
-      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -returnlicense || exit 0
+      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf -executeMethod TestBuilder.Build || exit 0
+      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf -returnlicense || exit 0
 #
 #
       - name: Archive production artifacts
@@ -49,9 +47,11 @@ jobs:
           path: |
             Builds/*.apk
 
-#      - name: 'Upload Artifact'
-#        uses: actions/upload-artifact@v2
-#        with:
-#          name: build${{ github.run_number }}
-#          path: app/build/outputs/apk/**/*apk
-#          retention-days: 60
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: build${{ github.run_number }}
+          path: Builds/*apk
+      - name: list all files in build dir
+        run: |
+          ls -al Builds/
