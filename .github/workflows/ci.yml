@@ -50,7 +50,7 @@ jobs:
         run: |
           wc -m license.alf
           ls -al *alf
-      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf -executeMethod TestBuilder.Build || exit 0
+      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -executeMethod TestBuilder.Build || exit 0
       - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf -returnlicense || exit 0
 #
 #
