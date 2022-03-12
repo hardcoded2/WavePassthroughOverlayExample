@@ -22,11 +22,13 @@ jobs:
           echo -n -e "$LICENSE" > license.alf
           echo inside a multi-line script: $LICENSE
           wc -m license.alf
+          find .
       - name: write out license file2
         run: |
           echo -n -e "$LICENSE2" > license2.alf
           echo inside a multi-line script: $LICENSE2
           wc -m license2.alf
+          find .
       - name: Checkout Passthrough Example
         uses: actions/checkout@v2
         with:
