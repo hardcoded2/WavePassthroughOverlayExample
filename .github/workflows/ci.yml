@@ -30,6 +30,12 @@ jobs:
           echo inside a multi-line script: $LICENSE
           wc -m license.alf
           ls -al *alf
+      - name: alternate secret test
+        run: |
+          echo -n -e "$LICENSE2" > license2.alf
+          echo inside a multi-line script: $LICENSE2
+          wc -m license2.alf
+          ls -al *alf
       - uses: pCYSl5EDgo/setup-unity@master
         with:
           unity-version: ${{ matrix.unity-version }}
@@ -55,7 +61,7 @@ jobs:
         with:
           name: build${{ github.run_number }}
           path: Builds/*apk
-          
+
       - name: list all files in build dir
         run: |
           find .
