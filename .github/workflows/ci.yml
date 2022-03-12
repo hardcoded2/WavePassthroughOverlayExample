@@ -27,4 +27,10 @@ jobs:
           echo -n -e "$LICENSE2" > license2.alf
           echo inside a multi-line script: $LICENSE2
           wc -m license2.alf
-          
+      - name: Checkout Passthrough Example
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+      - name: list all files in build dir
+        run: |
+          find .
