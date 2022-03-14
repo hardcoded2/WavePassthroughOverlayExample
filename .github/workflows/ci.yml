@@ -43,7 +43,7 @@ jobs:
           echo $ANDROID_HOME
           echo $ANDROID_NDK_HOME
           echo $NDK_HOME
-          ls ${{ matrix.unity-version-matrix }}
+          echo ${{ matrix.unity-version-matrix }}
 
       - name: accept licenses if not already done
         run: |
