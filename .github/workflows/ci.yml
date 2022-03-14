@@ -44,8 +44,10 @@ jobs:
           echo $NDK_HOME
           echo ${{ matrix.unity-version-matrix }}
 
+#        https://stackoverflow.com/questions/46402772/failed-to-install-android-sdk-java-lang-noclassdeffounderror-javax-xml-bind-a
       - name: accept licenses if not already done
         run: |
+          export JAVA_OPTS='-XX:+IgnoreUnrecognizedVMOptions --add-modules java.xml.bind'
           echo "y" | /opt/Unity/${{ matrix.unity-version-matrix }}/Editor/Data/PlaybackEngines/AndroidPlayer/SDK/tools/bin/sdkmanager --licenses
       - name: list all files in unity install dir
         run: |
