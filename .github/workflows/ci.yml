@@ -61,38 +61,6 @@ jobs:
           wc -m license2.alf
           ls -al *alf
 
-#
-#      #- run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -createManualActivationFile || exit 0
-#      #- run: cat Unity_v${{ matrix.unity-version }}.alf
-      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf || exit 0
-      - name: sanity check license file
-        run: |
-          wc -m license.alf
-          ls -al *alf
-      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -executeMethod TestBuilder.Build || exit 0
-
-      - name: sanity check files
-        run: |
-          find .
-
-      #return license failed - "activated manually for this computer and can't be returned"  https://github.com/hardcoded2/WavePassthroughOverlayExample/runs/5540616684?check_suite_focus=true#step:9:79
-      #feels wrong not to do it... just ignore the error code i guess?
-      - name: return license
-        continue-on-error: true 
-        run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -returnlicense || exit 0
-
-      - name: Archive production artifacts
-        uses: actions/upload-artifact@v3
-        with:
-          name: builds
-          path: |
-            Builds/*.apk
-
-      - name: 'Upload Artifact'
-        uses: actions/upload-artifact@v2
-        with:
-          name: build${{ github.run_number }}
-          path: Builds/*apk
 
       - name: list all files in build dir
         run: |
