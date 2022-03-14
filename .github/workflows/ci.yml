@@ -52,9 +52,9 @@ jobs:
           ls -al *alf
       - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -executeMethod TestBuilder.Build || exit 0
       #return license failed - "activated manually for this computer and can't be returned"  https://github.com/hardcoded2/WavePassthroughOverlayExample/runs/5540616684?check_suite_focus=true#step:9:79
-      #- run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -returnlicense || exit 0
-#
-#
+      #feels wrong not to do it... just ignore the error code i guess?
+      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -returnlicense
+
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
