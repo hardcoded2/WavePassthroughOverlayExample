@@ -39,7 +39,6 @@ jobs:
         run: |
           echo $UNITY_PATH 
           find $UNITY_PATH 
-# find /home/runner/Unity i think this gets cleaned up
           echo $ANDROID_HOME
           echo $ANDROID_NDK_HOME
           echo $NDK_HOME
