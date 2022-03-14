@@ -25,11 +25,16 @@ jobs:
         uses: actions/checkout@v2
         with:
           submodules: 'true'
-      - uses: pCYSl5EDgo/setup-unity@master
+      #https://github.com/marketplace/actions/setup-unity
+      - name: Setup Unity
+        uses: kuler90/setup-unity@v1
         with:
-          unity-version: ${{ matrix.unity-version }}
-          has-android: True
-          has-il2cpp: True
+          unity-modules: android
+          install-path: /opt/Unity/
+      - name: list all files in unity install dir
+        run: |
+          echo $UNITY_PATH 
+          find $UNITY_PATH 
       - name: list all files in unity install dir
         run: |
           find /opt/Unity/
@@ -60,7 +65,10 @@ jobs:
           echo inside a multi-line script: $LICENSE2
           wc -m license2.alf
           ls -al *alf
-
+      #- run:
+      #  name: accept licenses
+      #  command: |
+      #    echo "y" | ${ANDROID_HOME}/tools/bin/sdkmanager --licenses
 
       - name: list all files in build dir
         run: |
