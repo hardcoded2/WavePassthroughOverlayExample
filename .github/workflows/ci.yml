@@ -34,7 +34,7 @@ jobs:
         with:
           unity-version: ${{ matrix.unity-version-matrix }}
           unity-modules: android
-          install-path: /opt/Unity/
+          install-path: /opt/Unity
       - name: list all files in unity install dir
         run: |
           echo $UNITY_PATH 
