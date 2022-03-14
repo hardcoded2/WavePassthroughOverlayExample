@@ -116,7 +116,7 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: builds
+          name: build${{ matrix.unity-version-matrix}}${{github.run_id}}${{github.run_number}}${{github.run_attempt}}
           retention-days: 3
           path: |
             Builds/*.apk
