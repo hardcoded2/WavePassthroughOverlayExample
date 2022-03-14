@@ -2,19 +2,22 @@ name: License
 
 on:
   schedule:
-    - cron: '30 5 * * 1,3'
-    
+  #  - cron: '30 5 * * 1,3'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      LICENSE: ${{ secrets.LICENSE }}
-      LICENSE2: ${{ secrets.LICENSE2 }}
     strategy:
       matrix:
         unity-version: [ 2020.3.30f1, 2021.2.14f1 ]
 
     steps:
-
+      - uses: pCYSl5EDgo/setup-unity@master
+        with:
+          unity-version: ${{ matrix.unity-version }}
+          has-android: True
+          has-il2cpp: True
       - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -createManualActivationFile || exit 0
       - run: cat Unity_v${{ matrix.unity-version }}.alf
