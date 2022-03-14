@@ -85,14 +85,22 @@ jobs:
       #  name: accept licenses
       #  command: |
       #    echo "y" | ${ANDROID_HOME}/tools/bin/sdkmanager --licenses
+      #https://docs.unity3d.com/Manual/EditorCommandLineArguments.html
       - name: manual license activation
         run: |
-          /opt/Unity/${{ matrix.unity-version-matrix }}/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf || exit 0
+          /opt/Unity/${{ matrix.unity-version-matrix }}/Editor/Unity -quit -batchMode -buildTarget Android -logFile -noGraphics -manualLicenseFile license.alf || exit 0
       - name: unity android build
         run: |
-          /opt/Unity/${{ matrix.unity-version-matrix }}/Editor/Unity -quit -batchMode -logFile -noGraphics -executeMethod TestBuilder.Build || exit 0
+          /opt/Unity/${{ matrix.unity-version-matrix }}/Editor/Unity -quit -batchMode -buildTarget Android -logFile -noGraphics -executeMethod TestBuilder.Build || exit 0
       #return license failed - "activated manually for this computer and can't be returned"  https://github.com/hardcoded2/WavePassthroughOverlayExample/runs/5540616684?check_suite_focus=true#step:9:79
       #feels wrong not to do it... just ignore the error code i guess?
+      - name: Build Unity
+        uses: kuler90/build-unity@v1
+        continue-on-error: true 
+        with:
+          build-target: Android
+          build-method: TestBuilder.Build
+
       - name: return license
         continue-on-error: true 
         run: |
