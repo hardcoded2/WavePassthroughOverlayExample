@@ -21,7 +21,7 @@ jobs:
       LICENSE2021: ${{ secrets.LICENSE_2021 }}
     strategy:
       matrix:
-        unity-version: [ 2019.4.36f1 ] #,2020.3.30f1, 2021.2.14f1
+        unity-version-matrix: [ 2019.4.36f1 ] #,2020.3.30f1, 2021.2.14f1
 
     steps:
       - name: Checkout Passthrough Example
@@ -32,6 +32,7 @@ jobs:
       - name: Setup Unity
         uses: kuler90/setup-unity@v1
         with:
+          unity-version: ${{unity-version-matrix}}
           unity-modules: android
           install-path: /opt/Unity/
       - name: list all files in unity install dir
@@ -42,4 +43,4 @@ jobs:
           echo $ANDROID_HOME
           echo $ANDROID_NDK_HOME
           echo $NDK_HOME
-          ls ${{ unity-version }}
+          ls ${{ unity-version-matrix }}
