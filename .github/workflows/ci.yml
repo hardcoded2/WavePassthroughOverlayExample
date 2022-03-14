@@ -51,6 +51,11 @@ jobs:
           wc -m license.alf
           ls -al *alf
       - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -executeMethod TestBuilder.Build || exit 0
+
+      - name: sanity check files
+        run: |
+          find .
+
       #return license failed - "activated manually for this computer and can't be returned"  https://github.com/hardcoded2/WavePassthroughOverlayExample/runs/5540616684?check_suite_focus=true#step:9:79
       #feels wrong not to do it... just ignore the error code i guess?
       #- run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -returnlicense
