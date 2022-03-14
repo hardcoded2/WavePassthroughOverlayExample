@@ -1,0 +1,73 @@
+# CI for pull requests
+# https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-gradle?learn=continuous_integration&learnProduct=actions
+# Using gradle-build-action. See https://github.com/gradle/gradle-build-action
+
+name: CI
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      LICENSE: ${{ secrets.LICENSE }}
+      LICENSE2: ${{ secrets.LICENSE2 }}
+    strategy:
+      matrix:
+        unity-version: [ 2019.4.36f1 ] #,2020.3.30f1, 2021.2.14f1
+
+    steps:
+
+
+      - name: Checkout Passthrough Example
+        uses: actions/checkout@v2
+        with:
+          submodules: 'true'
+      - uses: pCYSl5EDgo/setup-unity@master
+        with:
+          unity-version: ${{ matrix.unity-version }}
+          has-android: True
+          has-il2cpp: True
+        
+      - name: write out license file
+        run: |
+          echo -n -e "$LICENSE" > license.alf
+          echo inside a multi-line script: $LICENSE
+          wc -m license.alf
+          ls -al *alf
+      - name: alternate secret test
+        run: |
+          echo -n -e "$LICENSE2" > license2.alf
+          echo inside a multi-line script: $LICENSE2
+          wc -m license2.alf
+          ls -al *alf
+
+#
+#      #- run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -createManualActivationFile || exit 0
+#      #- run: cat Unity_v${{ matrix.unity-version }}.alf
+      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -manualLicenseFile license.alf || exit 0
+      - name: sanity check license file
+        run: |
+          wc -m license.alf
+          ls -al *alf
+      - run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -executeMethod TestBuilder.Build || exit 0
+      #return license failed - "activated manually for this computer and can't be returned"  https://github.com/hardcoded2/WavePassthroughOverlayExample/runs/5540616684?check_suite_focus=true#step:9:79
+      #feels wrong not to do it... just ignore the error code i guess?
+      #- run: /opt/Unity/Editor/Unity -quit -batchMode -logFile -noGraphics -returnlicense
+
+      - name: Archive production artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: builds
+          path: |
+            Builds/*.apk
+
+      - name: 'Upload Artifact'
+        uses: actions/upload-artifact@v2
+        with:
+          name: build${{ github.run_number }}
+          path: Builds/*apk
+
+      - name: list all files in build dir
+        run: |
+          find .
