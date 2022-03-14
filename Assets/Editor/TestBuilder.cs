@@ -11,20 +11,30 @@ public class TestBuilder
         [MenuItem("TestBuilder/TestBuild")]
         public static void Build()
         {
+			Debug.Log("Start build");
             var buildNumberFaked = Convert.ToInt32(Random.Range(1f, 1000f));
-            
-            //other axes potentially - unity version, scripting backend, .net api compatibility, rendering pipeline, old/new input, xr input(xri with xr rig and xr origin), other packages, C++ compiler config, release/debug, tbd
-            var buildConfig = new BuildConfig()
+            try
             {
-                BuildOptions = BuildOptions.Development, // | BuildOptions.AutoRunPlayer,
-                BuildTargetGroup = BuildTargetGroup.Android,
-                Scenes = BuildConfig.ScenesInApp(),
-                BundleVersionCode = buildNumberFaked, // PlayerSettings.Android.bundleVersionCode,
-                AppName = "Passthrough Test "+buildNumberFaked+Application.unityVersion,
-                BundleIdentifier = "com.defaultCompany.wavexrpassthrough" +buildNumberFaked+ Application.unityVersion.Replace(".","_"),
-            };
+                //other axes potentially - unity version, scripting backend, .net api compatibility, rendering pipeline, old/new input, xr input(xri with xr rig and xr origin), other packages, C++ compiler config, release/debug, tbd
+                var buildConfig = new BuildConfig()
+                {
+                    BuildOptions = BuildOptions.Development, // | BuildOptions.AutoRunPlayer,
+                    BuildTargetGroup = BuildTargetGroup.Android,
+                    Scenes = BuildConfig.ScenesInApp(),
+                    BundleVersionCode = buildNumberFaked, // PlayerSettings.Android.bundleVersionCode,
+                    AppName = "Passthrough Test "+buildNumberFaked+Application.unityVersion,
+                    BundleIdentifier = "com.defaultCompany.wavexrpassthrough" +buildNumberFaked+ Application.unityVersion.Replace(".","_"),
+                };
             
-            Builder.BuildAndroid(buildConfig);
+                Builder.BuildAndroid(buildConfig);
+
+            }
+            catch (Exception e)
+            {
+                Debug.LogError("Error during build");
+                Debug.LogException(e);
+            }
+            Debug.Log("End build");
         }
 
         public class BuildConfig
