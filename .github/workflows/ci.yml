@@ -32,7 +32,7 @@ jobs:
       - name: Setup Unity
         uses: kuler90/setup-unity@v1
         with:
-          unity-version: ${{unity-version-matrix}}
+          unity-version: ${{ matrix.unity-version-matrix }}
           unity-modules: android
           install-path: /opt/Unity/
       - name: list all files in unity install dir
@@ -43,4 +43,4 @@ jobs:
           echo $ANDROID_HOME
           echo $ANDROID_NDK_HOME
           echo $NDK_HOME
-          ls ${{ unity-version-matrix }}
+          ls ${{ matrix.unity-version-matrix }}
