@@ -4,12 +4,13 @@
 
 name: CI
 
-on:
-  push:
-    branches:
-      - 'build'
-      #- 'releases/**'
-      #- '!releases/**-alpha'
+on: [pull_request,workflow_dispatch]
+  
+#  push:
+#    branches:
+#      - 'build'
+#      #- 'releases/**'
+#      #- '!releases/**-alpha'
 
 jobs:
   build:
@@ -116,7 +117,7 @@ jobs:
       - name: Archive production artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: build${{ matrix.unity-version-matrix}}${{github.run_id}}${{github.run_number}}${{github.run_attempt}}
+          name: build${{ matrix.unity-version-matrix}}_${{github.run_id}}_${{github.run_number}}_${{github.run_attempt}}
           retention-days: 3
           path: |
             Builds/*.apk
