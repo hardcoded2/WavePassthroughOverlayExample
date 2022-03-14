@@ -1,6 +1,6 @@
 name: License
 
-on:
+on: [push]
   #schedule:
   #  - cron: '30 5 * * 1,3'
   # Allows you to run this workflow manually from the Actions tab
