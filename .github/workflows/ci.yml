@@ -4,7 +4,12 @@
 
 name: CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - 'build'
+      #- 'releases/**'
+      #- '!releases/**-alpha'
 
 jobs:
   build:
