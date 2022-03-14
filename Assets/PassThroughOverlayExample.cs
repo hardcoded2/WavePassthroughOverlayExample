@@ -47,6 +47,10 @@ namespace Wave.Essence.Samples.PassThroughOverlayExample
 					Debug.LogError($"Error when setting overlay when setting it to {show} value was {result}");
 				}
 			}
+			ToggleUnderlay();
+
+			/*
+			 * 
 			void ToggleOverlay()
 			{
 				if (Interop.WVR_ShowPassthroughOverlay(show))
@@ -54,8 +58,8 @@ namespace Wave.Essence.Samples.PassThroughOverlayExample
 					Debug.LogError($"Error when setting overlay when setting it to {show}");
 				}
 			}
-			ToggleUnderlay();
-			//ToggleOverlay();
+			ToggleOverlay();
+			 */
 		}
 
 		private void OnApplicationPause()
