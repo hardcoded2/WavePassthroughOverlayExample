@@ -12,6 +12,8 @@ on: [pull_request,workflow_dispatch]
 #      #- 'releases/**'
 #      #- '!releases/**-alpha'
 
+
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -20,6 +22,7 @@ jobs:
       LICENSE2: ${{ secrets.LICENSE2 }}
       LICENSE2020: ${{ secrets.LICENSE_2020 }}
       LICENSE2021: ${{ secrets.LICENSE_2021 }}
+      UPM_PACKAGE_CREDENTIAL_UPMCONFIG_TOML: ${{ secrets.UPM_PACKAGE_CREDENTIAL_UPMCONFIG_TOML }}
     strategy:
       matrix:
         unity-version-matrix: [ 2019.4.36f1,2020.3.30f1, 2021.2.14f1 ] #,2020.3.30f1, 2021.2.14f1
@@ -37,6 +40,10 @@ jobs:
           unity-version: ${{ matrix.unity-version-matrix }}
           unity-modules: android
           install-path: /opt/Unity
+#https://docs.unity3d.com/Manual/upm-config.html set up the upm config toml if we want to build using test pacakges
+      - name: Set up authentication for test packages
+        run: |
+          echo $UPM_PACKAGE_CREDENTIAL_UPMCONFIG_TOML > ~/.upmconfig.toml
       - name: list all files in current dir
         run: |
           find .    
