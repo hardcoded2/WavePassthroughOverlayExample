@@ -43,7 +43,7 @@ jobs:
 #https://docs.unity3d.com/Manual/upm-config.html set up the upm config toml if we want to build using test pacakges
       - name: Set up authentication for test packages
         run: |
-          echo $UPM_PACKAGE_CREDENTIAL_UPMCONFIG_TOML > ~/.upmconfig.toml
+          echo -n -e "$UPM_PACKAGE_CREDENTIAL_UPMCONFIG_TOML" > ~/.upmconfig.toml
       - name: list all files in current dir
         run: |
           find .    
