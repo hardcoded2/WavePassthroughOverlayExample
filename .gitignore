@@ -79,3 +79,7 @@ crashlytics-build.properties
 #ide
 /.vs/
 /.idea/
+
+#ignore auto imported packages
+Assets/Wave
+Assets/Wave.meta
