@@ -109,7 +109,7 @@ jobs:
       - name: return license
         continue-on-error: true 
         run: |
-          /opt/Unity/${{ matrix.unity-version-matrix }}/Editor/Unity -quit -batchMode -logFile -noGraphics -returnlicense || exit 0
+          /opt/Unity/${{ matrix.unity-version-matrix }}/Editor/Unity -quit -batchMode -logFile -noGraphics -returnlicense || true
 
       - name: list all files in build dir
         run: |
