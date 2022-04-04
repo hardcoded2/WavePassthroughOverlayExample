@@ -20,12 +20,13 @@ jobs:
       LICENSE2: ${{ secrets.LICENSE2 }}
       LICENSE2020: ${{ secrets.LICENSE_2020 }}
       LICENSE2021: ${{ secrets.LICENSE_2021 }}
+      LICENSE2022: ${{ secrets.LICENSE_2022 }}
     strategy:
       matrix:
-        unity-version-matrix: [ 2019.4.30f1,2020.3.30f1, 2021.2.14f1 ] #,2020.3.30f1, 2021.2.14f1
+        unity-version-matrix: [ 2019.4.36f1,2020.3.30f1, 2021.2.14f1, 2022.1.0b14 ]
 
     steps:
-      - name: Checkout Passthrough Example
+      - name: Checkout Code
         uses: actions/checkout@v2
         with:
           submodules: 'true'
@@ -77,6 +78,13 @@ jobs:
         run: |
           echo -n -e "$LICENSE2021" > license.alf
           echo inside a multi-line script: $LICENSE2021
+          wc -m license.alf
+          ls -al *alf
+      - name: write out license file 2022
+        if: ${{ contains(matrix.unity-version-matrix,'2022') }}
+        run: |
+          echo -n -e "$LICENSE2022" > license.alf
+          echo inside a multi-line script: $LICENSE2022
           wc -m license.alf
           ls -al *alf
       - name: alternate secret test
