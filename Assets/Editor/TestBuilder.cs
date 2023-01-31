@@ -11,12 +11,9 @@ public class TestBuilder
         [MenuItem("TestBuilder/TestBuild")]
         public static void Build()
         {
-			Debug.Log("Start build");
+			Debug.Log("Start build1");
             var buildNumberFaked = Convert.ToInt32(Random.Range(1f, 1000f));
-            try
-            {
-                //other axes potentially - unity version, scripting backend, .net api compatibility, rendering pipeline, old/new input, xr input(xri with xr rig and xr origin), other packages, C++ compiler config, release/debug, tbd
-                var buildConfig = new BuildConfig()
+            var buildConfig = new BuildConfig()
                 {
                     BuildOptions = BuildOptions.Development, // | BuildOptions.AutoRunPlayer,
                     BuildTargetGroup = BuildTargetGroup.Android,
@@ -25,9 +22,30 @@ public class TestBuilder
                     AppName = "Passthrough Test "+buildNumberFaked+Application.unityVersion,
                     BundleIdentifier = "com.defaultCompany.wavexrpassthrough" +buildNumberFaked+ Application.unityVersion.Replace(".","_"),
                 };
-            
-                Builder.BuildAndroid(buildConfig);
+            BuildInternal(buildConfig);
+        }
 
+        [MenuItem("TestBuilder/TestBuild No Version update")]
+        public static void BuildNoVersionUpdate()
+        {
+            var buildNumberFaked = Convert.ToInt32(Random.Range(1f, 1000f));
+            var buildConfig = new BuildConfig()
+                {
+                    BuildOptions = BuildOptions.Development, // | BuildOptions.AutoRunPlayer,
+                    BuildTargetGroup = BuildTargetGroup.Android,
+                    Scenes = BuildConfig.ScenesInApp(),
+                    BundleVersionCode = PlayerSettings.Android.bundleVersionCode,
+                    AppName = Application.productName,
+                    BundleIdentifier = Application.identifier,
+                };
+            BuildInternal(buildConfig);
+        }
+        
+        private static void BuildInternal(BuildConfig buildConfig){
+            Debug.Log("Start build");
+            try
+            {
+                Builder.BuildAndroid(buildConfig);
             }
             catch (Exception e)
             {
@@ -35,7 +53,8 @@ public class TestBuilder
                 Debug.LogException(e);
             }
             Debug.Log("End build");
-            EditorApplication.Exit(0);
+            if(Application.isBatchMode)
+                EditorApplication.Exit(0);    
         }
 
         public class BuildConfig
@@ -93,7 +112,6 @@ public class TestBuilder
                 }
                 PlayerSettings.SetApplicationIdentifier(Config.BuildTargetGroup,Config.BundleIdentifier);
                 PlayerSettings.productName = Config.AppName;
-                //Application.productName = AppName;
                 PlayerSettings.Android.bundleVersionCode = Config.BundleVersionCode;
                 
                 var apkName =  $"{SafeWindowsFileName(Config.BundleIdentifier.Replace(".", "_"))}.apk";
